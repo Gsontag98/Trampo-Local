@@ -743,6 +743,30 @@ h1, h2, h3, h4, h5, h6 {
 .job-card {
   flex-wrap: wrap; /* Permits full card layout wrap */
 }
+.dashboard-action-box {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+}
+.action-box-blue {
+  background: rgba(99, 102, 241, 0.05);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+.action-box-gray {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+}
+.dashboard-action-box-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
 @media (max-width: 768px) {
   .job-card {
@@ -820,6 +844,23 @@ h1, h2, h3, h4, h5, h6 {
   .modal-content {
     padding: 24px 16px;
     max-width: 95vw;
+  }
+}
+
+@media (max-width: 580px) {
+  .dashboard-action-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dashboard-action-box-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .dashboard-action-box-buttons .btn,
+  .dashboard-action-box-buttons a {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 }
 

@@ -266,24 +266,13 @@ export const CompanyDashboard: React.FC = () => {
               <div className="job-list">
                 {inProgressGigs.map(job => (
                   <JobCard key={job.id} job={job} userRole="company">
-                    <div style={{ 
-                      marginTop: '16px', 
-                      padding: '16px', 
-                      background: 'rgba(99, 102, 241, 0.05)', 
-                      border: '1px solid rgba(99, 102, 241, 0.2)', 
-                      borderRadius: 'var(--radius-sm)',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                      gap: '12px'
-                    }}>
+                    <div className="dashboard-action-box action-box-blue">
                       <div>
                         <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Profissional Contratado:</div>
                         <div style={{ fontWeight: 600 }}>{job.selected_freelancer_name || 'Profissional'}</div>
                       </div>
                       
-                      <div style={{ display: 'flex', gap: '12px' }}>
+                      <div className="dashboard-action-box-buttons">
                         <a 
                           href={`https://wa.me/${job.selected_freelancer_phone}`}
                           target="_blank" 
@@ -322,30 +311,21 @@ export const CompanyDashboard: React.FC = () => {
               <div className="job-list">
                 {finishedGigs.map(job => (
                   <JobCard key={job.id} job={job} userRole="company">
-                    <div style={{ 
-                      marginTop: '16px', 
-                      padding: '16px', 
-                      background: 'rgba(255, 255, 255, 0.02)', 
-                      border: '1px solid var(--border-color)', 
-                      borderRadius: 'var(--radius-sm)',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                      gap: '12px'
-                    }}>
+                    <div className="dashboard-action-box action-box-gray">
                       <div>
                         <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                           Trabalho realizado por: <strong>{job.selected_freelancer_name}</strong>
                         </span>
                       </div>
                       
-                      <button 
-                        className="btn btn-secondary btn-sm"
-                        onClick={() => openReviewModal(job)}
-                      >
-                        <Star size={14} fill="var(--secondary)" stroke="var(--secondary)" /> Avaliar Profissional
-                      </button>
+                      <div className="dashboard-action-box-buttons">
+                        <button 
+                          className="btn btn-secondary btn-sm"
+                          onClick={() => openReviewModal(job)}
+                        >
+                          <Star size={14} fill="var(--secondary)" stroke="var(--secondary)" /> Avaliar Profissional
+                        </button>
+                      </div>
                     </div>
                   </JobCard>
                 ))}

@@ -83,7 +83,7 @@ export const JobCard: React.FC<JobCardProps> = ({
       )}
 
       <div className="job-info">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', flexWrap: 'wrap' }}>
           {getStatusBadge()}
           <span className="badge badge-info">{job.category}</span>
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>

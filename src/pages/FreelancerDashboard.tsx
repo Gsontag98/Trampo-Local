@@ -220,7 +220,7 @@ export const FreelancerDashboard: React.FC = () => {
 
                 return (
                   <div key={app.id} className="glass-card" style={{ padding: '16px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
                       <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                         Empresa: <strong>{app.company_name}</strong>
                       </span>
@@ -231,21 +231,23 @@ export const FreelancerDashboard: React.FC = () => {
                       {app.job_title}
                     </h3>
                     
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px' }}>
+                    <div className="dashboard-action-box" style={{ marginTop: '12px', padding: 0, background: 'none', border: 'none', width: '100%' }}>
                       <span style={{ fontWeight: 700, color: 'var(--success)', fontSize: '0.95rem' }}>
                         {formatCurrency(app.job_price || 0)}
                       </span>
                       
                       {app.status === 'accepted' && (
-                        <a 
-                          href={whatsAppLink}
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="btn btn-primary btn-sm"
-                          style={{ background: 'var(--success)', border: 'none', padding: '6px 12px', fontSize: '0.78rem' }}
-                        >
-                          <Phone size={12} /> WhatsApp do Contratante
-                        </a>
+                        <div className="dashboard-action-box-buttons">
+                          <a 
+                            href={whatsAppLink}
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="btn btn-primary btn-sm"
+                            style={{ background: 'var(--success)', border: 'none', padding: '6px 12px', fontSize: '0.78rem' }}
+                          >
+                            <Phone size={12} /> WhatsApp do Contratante
+                          </a>
+                        </div>
                       )}
                     </div>
                   </div>
