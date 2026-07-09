@@ -113,6 +113,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   min-height: 100vh;
   width: 100%;
+  overflow-x: hidden; /* Prevent global horizontal stretching */
 }
 
 /* Sidebar on Desktop */
@@ -209,6 +210,8 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 0; /* Critical to allow shrinking under flexbox layout */
+  width: 100%;
 }
 
 /* Top Header */
@@ -220,6 +223,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   background-color: transparent;
   border-bottom: none;
+  min-width: 0;
 }
 
 .header-title-section h1 {
@@ -237,6 +241,15 @@ h1, h2, h3, h4, h5, h6 {
 .page-body {
   padding: 0 40px 60px 40px;
   flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0 auto;
 }
 
 /* Responsive configurations for Sidebar & Header */
@@ -690,6 +703,8 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 24px;
   flex-wrap: wrap;
   align-items: center;
+  width: 100%;
+  min-width: 0;
 }
 .search-input-wrapper {
   flex: 1;
