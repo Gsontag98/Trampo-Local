@@ -299,7 +299,7 @@ export const dbService = {
   async createJob(job: Omit<Job, 'id' | 'created_at' | 'status' | 'is_featured'>): Promise<Job> {
     const newJob: Job = {
       ...job,
-      id: 'j-' + Math.random().toString(36).substr(2, 9),
+      id: isRealSupabase ? crypto.randomUUID() : 'j-' + Math.random().toString(36).substr(2, 9),
       status: 'open',
       is_featured: false, // For testing, defaults to normal. Toggle is_featured manually in lists.
       created_at: new Date().toISOString()
@@ -388,7 +388,7 @@ export const dbService = {
 
   async applyToJob(jobId: string, freelancerId: string): Promise<Application> {
     const newApp: Application = {
-      id: 'a-' + Math.random().toString(36).substr(2, 9),
+      id: isRealSupabase ? crypto.randomUUID() : 'a-' + Math.random().toString(36).substr(2, 9),
       job_id: jobId,
       freelancer_id: freelancerId,
       status: 'pending',
@@ -513,7 +513,7 @@ export const dbService = {
   async addReview(review: Omit<Review, 'id' | 'created_at'>): Promise<Review> {
     const newReview: Review = {
       ...review,
-      id: 'r-' + Math.random().toString(36).substr(2, 9),
+      id: isRealSupabase ? crypto.randomUUID() : 'r-' + Math.random().toString(36).substr(2, 9),
       created_at: new Date().toISOString()
     };
 

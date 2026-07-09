@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Building2, User } from 'lucide-react';
+import { isRealSupabase } from '../services/db';
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -22,6 +23,10 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [skillsInput, setSkillsInput] = useState('');
   const [city, setCity] = useState('Campo Mourão - PR');
 
+  // Real Auth fields
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const presetAccounts = [
     { id: 'f-1', label: 'Carlos Oliveira (Garçom)' },
     { id: 'f-2', label: 'Ana Souza (Diarista)' },
@@ -34,7 +39,14 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     e.preventDefault();
     setError('');
     try {
-      await login(selectedPresetId);
+      if (isRealSupabase) {
+        if (!email.trim() || !password.trim()) {
+          return setError('E-mail e senha são obrigatórios.');
+        }
+        await login(email, password);
+      } else {
+        await login(selectedPresetId);
+      }
       onLoginSuccess();
     } catch (err: any) {
       setError(err.message || 'Erro ao realizar login.');
@@ -47,6 +59,11 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     
     if (!name.trim()) return setError('Nome é obrigatório.');
     if (!phone.trim()) return setError('WhatsApp é obrigatório.');
+    if (isRealSupabase) {
+      if (!email.trim()) return setError('E-mail é obrigatório.');
+      if (!password.trim()) return setError('Senha é obrigatória.');
+      if (password.length < 6) return setError('A senha deve conter no mínimo 6 caracteres.');
+    }
     
     try {
       const skillsArray = skillsInput
@@ -54,7 +71,11 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         .map(s => s.trim())
         .filter(s => s.length > 0);
         
-      await register(name, phone, role, bio, skillsArray, city);
+      if (isRealSupabase) {
+        await register(name, phone, role, bio, skillsArray, city, email, password);
+      } else {
+        await register(name, phone, role, bio, skillsArray, city);
+      }
       onLoginSuccess();
     } catch (err: any) {
       setError(err.message || 'Erro ao criar conta.');
@@ -114,25 +135,58 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
         {activeTab === 'signin' ? (
           <form onSubmit={handleSignIn}>
-            <div className="form-group">
-              <label className="form-label">Selecione uma conta de simulação</label>
-              <select 
-                className="form-control"
-                value={selectedPresetId}
-                onChange={(e) => setSelectedPresetId(e.target.value)}
-                style={{ height: '48px' }}
-              >
-                {presetAccounts.map(acc => (
-                  <option key={acc.id} value={acc.id}>{acc.label}</option>
-                ))}
-              </select>
-            </div>
-            
-            <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', padding: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', marginBottom: '24px', lineHeight: 1.4 }}>
-              💡 <strong>Nota de Arquitetura:</strong> Em produção, o login será autenticado via Supabase OTP (código via WhatsApp ou SMS) garantindo segurança. Para testes rápidos, este protótipo permite login instantâneo.
-            </div>
+            {isRealSupabase ? (
+              <>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="login-email">E-mail</label>
+                  <input 
+                    id="login-email"
+                    className="form-control" 
+                    type="email" 
+                    placeholder="Ex: profissional@gmail.com" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
+                    style={{ height: '48px' }}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="login-password">Senha</label>
+                  <input 
+                    id="login-password"
+                    className="form-control" 
+                    type="password" 
+                    placeholder="Sua senha secreta" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={{ height: '48px' }}
+                    required
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="form-group">
+                  <label className="form-label">Selecione uma conta de simulação</label>
+                  <select 
+                    className="form-control"
+                    value={selectedPresetId}
+                    onChange={(e) => setSelectedPresetId(e.target.value)}
+                    style={{ height: '48px' }}
+                  >
+                    {presetAccounts.map(acc => (
+                      <option key={acc.id} value={acc.id}>{acc.label}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', padding: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', marginBottom: '24px', lineHeight: 1.4 }}>
+                  💡 <strong>Nota de Arquitetura:</strong> Em produção, o login será autenticado via Supabase OTP (código via WhatsApp ou SMS) garantindo segurança. Para testes rápidos, este protótipo permite login instantâneo.
+                </div>
+              </>
+            )}
 
-            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }}>
               Entrar no Painel
             </button>
           </form>
@@ -188,6 +242,38 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               </div>
             </div>
 
+            {/* Real Auth fields (only when Supabase keys are active) */}
+            {isRealSupabase && (
+              <>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="reg-email">E-mail de Cadastro</label>
+                  <input 
+                    id="reg-email"
+                    className="form-control" 
+                    type="email" 
+                    placeholder="Ex: profissional@gmail.com" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
+                    style={{ height: '48px' }}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="reg-password">Senha (mínimo 6 caracteres)</label>
+                  <input 
+                    id="reg-password"
+                    className="form-control" 
+                    type="password" 
+                    placeholder="Crie uma senha segura" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={{ height: '48px' }}
+                    required
+                  />
+                </div>
+              </>
+            )}
+
             {/* General Fields */}
             <div className="form-group">
               <label className="form-label" htmlFor="reg-name">Nome Completo / Nome Fantasia</label>
@@ -198,6 +284,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                 placeholder="Ex: Carlos Silva ou Buffet Estrela" 
                 value={name} 
                 onChange={(e) => setName(e.target.value)}
+                required
               />
             </div>
 
@@ -210,6 +297,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                 placeholder="Ex: 5511999999999 (com DDI + DDD)" 
                 value={phone} 
                 onChange={(e) => setPhone(e.target.value)}
+                required
               />
               <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Utilize apenas números incluindo DDI e DDD (ex: 55 para Brasil).</span>
             </div>
