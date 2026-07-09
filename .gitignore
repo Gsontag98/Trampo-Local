@@ -79,3 +79,5 @@ Thumbs.db
 
 # Supabase local config
 .supabase/
+
+.vercel
