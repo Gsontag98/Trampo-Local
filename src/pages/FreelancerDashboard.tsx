@@ -128,7 +128,7 @@ export const FreelancerDashboard: React.FC = () => {
 
       {/* Welcome header */}
       <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem' }}>Painel do Profissional</h1>
+        <h1 className="dashboard-heading">Painel do Profissional</h1>
         <p style={{ color: 'var(--text-secondary)' }}>
           Encontre trabalhos rápidos na sua cidade e gerencie suas candidaturas.
         </p>
@@ -139,7 +139,7 @@ export const FreelancerDashboard: React.FC = () => {
         {/* Left Side: Jobs Feed */}
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
-            <h2 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
+            <h2 style={{ fontSize: 'clamp(1rem, 4vw, 1.4rem)', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
               <Briefcase size={20} /> Vagas Disponíveis
             </h2>
             <span className="badge badge-info" style={{ textTransform: 'none', letterSpacing: 'normal' }}>

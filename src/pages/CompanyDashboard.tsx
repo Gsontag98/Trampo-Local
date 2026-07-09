@@ -179,7 +179,7 @@ export const CompanyDashboard: React.FC = () => {
       {/* Header bar */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', flexWrap: 'wrap', gap: '16px' }}>
         <div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem' }}>Painel da Empresa</h1>
+          <h1 className="dashboard-heading">Painel da Empresa</h1>
           <p style={{ color: 'var(--text-secondary)' }}>Gerencie suas vagas e contrate profissionais locais.</p>
         </div>
         <button className="btn btn-primary" onClick={() => setIsCreateOpen(true)}>

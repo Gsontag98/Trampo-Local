@@ -229,6 +229,9 @@ p, h1, h2, h3, h4, h5, h6, span, div {
   background-color: transparent;
   border-bottom: none;
   min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .header-title-section h1 {
@@ -592,6 +595,7 @@ p, h1, h2, h3, h4, h5, h6, span, div {
   /* Removed gradient text to match flat black typography in image */
   background: none;
   -webkit-background-clip: unset;
+  background-clip: unset;
   -webkit-text-fill-color: unset;
   color: var(--text-main);
   border-bottom: 3px solid var(--text-main);
@@ -615,6 +619,15 @@ p, h1, h2, h3, h4, h5, h6, span, div {
   grid-template-columns: 1.6fr 1fr;
   gap: 30px;
   width: 100%;
+}
+.dashboard-grid > * {
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.dashboard-heading {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
 }
 
 @media (max-width: 900px) {
@@ -829,13 +842,14 @@ p, h1, h2, h3, h4, h5, h6, span, div {
     margin-top: 8px;
     width: 100%;
   }
+  /* Horizontal scroll category capsules for mobile touch preview */
   .filter-bar {
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
+    max-width: 100%;
+    overflow: hidden;
   }
-  
-  /* Horizontal scroll category capsules for mobile touch preview */
   .pill-filter-bar {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -843,6 +857,7 @@ p, h1, h2, h3, h4, h5, h6, span, div {
     margin-bottom: 20px;
     -webkit-overflow-scrolling: touch;
     width: 100%;
+    max-width: 100%;
     margin-left: 0;
     margin-right: 0;
     padding-left: 0;
@@ -871,6 +886,12 @@ p, h1, h2, h3, h4, h5, h6, span, div {
 }
 
 @media (max-width: 600px) {
+  .dashboard-heading {
+    font-size: 1.6rem;
+  }
+  .header-user-badge {
+    display: none;
+  }
   .top-header {
     padding: 0 20px;
     height: 64px;
@@ -887,7 +908,7 @@ p, h1, h2, h3, h4, h5, h6, span, div {
     padding: 24px 20px 100px 20px;
   }
   .glass-card, .dark-accent-card {
-    padding: 20px 16px;
+    padding: 20px 16px !important;
     border-radius: var(--radius-sm);
   }
   .modal-content {
