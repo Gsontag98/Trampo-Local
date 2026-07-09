@@ -103,7 +103,7 @@ export const FreelancerDashboard: React.FC = () => {
   if (!user) return null;
 
   return (
-    <div className="container" style={{ padding: '40px 24px' }}>
+    <div className="container">
       
       {/* Toast Alert */}
       {toastMessage && (
@@ -134,10 +134,10 @@ export const FreelancerDashboard: React.FC = () => {
         </p>
       </div>
 
-      <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap' }}>
+      <div className="dashboard-grid">
         
         {/* Left Side: Jobs Feed */}
-        <div style={{ flex: '1 1 500px' }}>
+        <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
             <h2 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
               <Briefcase size={20} /> Vagas Disponíveis
@@ -197,7 +197,7 @@ export const FreelancerDashboard: React.FC = () => {
         </div>
 
         {/* Right Side: My Applications */}
-        <div style={{ flex: '1 1 320px' }}>
+        <div>
           <h2 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-display)', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Clock size={20} /> Minhas Candidaturas
           </h2>

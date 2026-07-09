@@ -62,12 +62,12 @@ export const Profile: React.FC = () => {
   if (!user) return null;
 
   return (
-    <div className="container" style={{ padding: '40px 24px', maxWidth: '900px' }}>
+    <div className="container" style={{ maxWidth: '900px', margin: '0 auto' }}>
       <h1 style={{ fontFamily: 'var(--font-display)', marginBottom: '32px' }}>Meu Perfil</h1>
 
-      <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap' }}>
+      <div className="dashboard-grid">
         {/* Left Side: Edit Profile */}
-        <div style={{ flex: '1 1 500px' }}>
+        <div>
           <div className="glass-card">
             <h2 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-display)', marginBottom: '20px' }}>Editar Informações</h2>
             
@@ -136,7 +136,7 @@ export const Profile: React.FC = () => {
         </div>
 
         {/* Right Side: Reputação / Avaliações */}
-        <div style={{ flex: '1 1 300px' }}>
+        <div>
           <div className="glass-card" style={{ height: '100%' }}>
             <h2 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-display)', marginBottom: '20px' }}>Minha Reputação</h2>
             

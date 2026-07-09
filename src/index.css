@@ -576,9 +576,20 @@ h1, h2, h3, h4, h5, h6 {
   gap: 24px;
 }
 
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 30px;
+  width: 100%;
+}
+
 @media (max-width: 900px) {
   .grid-3 {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 }
 @media (max-width: 600px) {
