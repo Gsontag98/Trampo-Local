@@ -84,7 +84,7 @@ const initialProfiles: Profile[] = [
     bio: 'Garçom profissional com mais de 5 anos de experiência em eventos corporativos e casamentos. Pontual, organizado e sempre de bom humor.',
     skills: ['Garçom', 'Eventos', 'Barista', 'Atendimento'],
     rating_avg: 4.8,
-    city: 'Campinas',
+    city: 'Campo Mourão - PR',
     created_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -95,7 +95,7 @@ const initialProfiles: Profile[] = [
     bio: 'Diarista experiente com referências excelentes na cidade. Limpeza residencial e comercial minuciosa. Trago meus próprios produtos ecológicos.',
     skills: ['Diarista', 'Limpeza', 'Passadeira', 'Organização'],
     rating_avg: 5.0,
-    city: 'Campinas',
+    city: 'Campo Mourão - PR',
     created_at: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -106,7 +106,7 @@ const initialProfiles: Profile[] = [
     bio: 'Eletricista e Encanador certificado pelo SENAI. Pequenos reparos residenciais, troca de fiação, instalação de luminárias e desentupimentos rápidos.',
     skills: ['Eletricista', 'Encanador', 'Reparos', 'Montador'],
     rating_avg: 4.6,
-    city: 'Sorocaba',
+    city: 'Campo Mourão - PR',
     created_at: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -117,7 +117,7 @@ const initialProfiles: Profile[] = [
     bio: 'Organização de festas infantis e confraternizações locais.',
     skills: [],
     rating_avg: 4.5,
-    city: 'Campinas',
+    city: 'Campo Mourão - PR',
     created_at: new Date().toISOString(),
   },
   {
@@ -128,7 +128,7 @@ const initialProfiles: Profile[] = [
     bio: 'Contratante particular do bairro Centro.',
     skills: [],
     rating_avg: 5.0,
-    city: 'Campinas',
+    city: 'Campo Mourão - PR',
     created_at: new Date().toISOString(),
   }
 ];
@@ -143,7 +143,7 @@ const initialJobs: Job[] = [
     price: 180,
     schedule: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T17:00',
     location: 'Bairro Jardim América, Salão Nobre',
-    city: 'Campinas',
+    city: 'Campo Mourão - PR',
     status: 'open',
     is_featured: true,
     created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
@@ -157,7 +157,7 @@ const initialJobs: Job[] = [
     price: 150,
     schedule: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T08:00',
     location: 'Bairro Centro, Rua das Flores',
-    city: 'Campinas',
+    city: 'Campo Mourão - PR',
     status: 'open',
     is_featured: false,
     created_at: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
@@ -171,7 +171,7 @@ const initialJobs: Job[] = [
     price: 120,
     schedule: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T13:00',
     location: 'Chácara dos Pinheiros',
-    city: 'Campinas',
+    city: 'Campo Mourão - PR',
     status: 'open',
     is_featured: false,
     created_at: new Date().toISOString()

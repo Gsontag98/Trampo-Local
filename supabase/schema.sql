@@ -16,7 +16,7 @@ CREATE TABLE public.profiles (
     bio TEXT,
     skills TEXT[] DEFAULT '{}',
     rating_avg NUMERIC(3,2) DEFAULT 5.0 CHECK (rating_avg BETWEEN 1.0 AND 5.0),
-    city TEXT NOT NULL DEFAULT 'Campinas',
+    city TEXT NOT NULL DEFAULT 'Campo Mourão - PR',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE public.jobs (
     price NUMERIC(10,2) NOT NULL CHECK (price > 0),
     schedule TIMESTAMP WITH TIME ZONE NOT NULL,
     location TEXT NOT NULL,
-    city TEXT NOT NULL DEFAULT 'Campinas',
+    city TEXT NOT NULL DEFAULT 'Campo Mourão - PR',
     status VARCHAR(20) DEFAULT 'open' NOT NULL CHECK (status IN ('open', 'closed', 'completed')),
     selected_freelancer_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
     is_featured BOOLEAN DEFAULT false NOT NULL,
@@ -161,7 +161,7 @@ BEGIN
     COALESCE(new.raw_user_meta_data->>'phone', ''),
     (COALESCE(new.raw_user_meta_data->>'role', 'freelancer'))::varchar,
     'Perfil criado automaticamente.',
-    COALESCE(new.raw_user_meta_data->>'city', 'Campinas')
+    COALESCE(new.raw_user_meta_data->>'city', 'Campo Mourão - PR')
   );
   RETURN NEW;
 END;

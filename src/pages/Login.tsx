@@ -20,7 +20,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [role, setRole] = useState<'freelancer' | 'company'>('freelancer');
   const [bio, setBio] = useState('');
   const [skillsInput, setSkillsInput] = useState('');
-  const [city, setCity] = useState('Campinas');
+  const [city, setCity] = useState('Campo Mourão - PR');
 
   const presetAccounts = [
     { id: 'f-1', label: 'Carlos Oliveira (Garçom)' },
@@ -222,11 +222,11 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 style={{ height: '48px' }}
+                disabled
               >
-                <option value="Campinas">Campinas</option>
-                <option value="Sorocaba">Sorocaba</option>
-                <option value="São Paulo">São Paulo</option>
+                <option value="Campo Mourão - PR">Campo Mourão - PR</option>
               </select>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>No momento, a plataforma está operando em fase piloto exclusivamente para Campo Mourão.</span>
             </div>
 
             <div className="form-group">
