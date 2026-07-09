@@ -31,10 +31,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) {
-          const profile = await dbService.getProfile(session.user.id);
-          if (profile) {
-            setUser(profile);
+          let profile = await dbService.getProfile(session.user.id);
+          if (!profile) {
+            const metadata = session.user.user_metadata || {};
+            const fallbackProfile: Profile = {
+              id: session.user.id,
+              role: metadata.role || 'freelancer',
+              name: metadata.name || 'Usuário',
+              phone: metadata.phone || '',
+              bio: metadata.bio || '',
+              skills: metadata.skills || [],
+              rating_avg: 5.0,
+              city: metadata.city || 'Campo Mourão - PR',
+              created_at: new Date().toISOString()
+            };
+            profile = await dbService.saveProfile(fallbackProfile);
           }
+          setUser(profile);
         }
       } catch (err) {
         console.error('Error restoring session:', err);
@@ -47,7 +60,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
-        const profile = await dbService.getProfile(session.user.id);
+        let profile = await dbService.getProfile(session.user.id);
+        if (!profile) {
+          const metadata = session.user.user_metadata || {};
+          const fallbackProfile: Profile = {
+            id: session.user.id,
+            role: metadata.role || 'freelancer',
+            name: metadata.name || 'Usuário',
+            phone: metadata.phone || '',
+            bio: metadata.bio || '',
+            skills: metadata.skills || [],
+            rating_avg: 5.0,
+            city: metadata.city || 'Campo Mourão - PR',
+            created_at: new Date().toISOString()
+          };
+          profile = await dbService.saveProfile(fallbackProfile);
+        }
         setUser(profile);
       } else {
         setUser(null);
@@ -67,12 +95,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
       if (error) throw error;
       if (data.user) {
-        const profile = await dbService.getProfile(data.user.id);
-        if (profile) {
-          setUser(profile);
-        } else {
-          throw new Error('Perfil correspondente não encontrado no banco!');
+        let profile = await dbService.getProfile(data.user.id);
+        if (!profile) {
+          const metadata = data.user.user_metadata || {};
+          const fallbackProfile: Profile = {
+            id: data.user.id,
+            role: metadata.role || 'freelancer',
+            name: metadata.name || 'Usuário',
+            phone: metadata.phone || '',
+            bio: metadata.bio || '',
+            skills: metadata.skills || [],
+            rating_avg: 5.0,
+            city: metadata.city || 'Campo Mourão - PR',
+            created_at: new Date().toISOString()
+          };
+          profile = await dbService.saveProfile(fallbackProfile);
         }
+        setUser(profile);
       }
     } finally {
       setLoading(false);

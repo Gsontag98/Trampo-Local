@@ -46,10 +46,12 @@ const AppContent: React.FC = () => {
     } else {
       document.body.classList.remove('light-theme');
     }
-  };
-
-
-
+  };  // Automatically redirect to dashboard upon login
+  useEffect(() => {
+    if (user && currentTab === 'login') {
+      setCurrentTab('dashboard');
+    }
+  }, [user, currentTab]);
   const getPageTitle = () => {
     switch (currentTab) {
       case 'home':
