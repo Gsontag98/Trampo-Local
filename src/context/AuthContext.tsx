@@ -102,12 +102,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             phone: formattedPhone,
             role,
             city,
-            bio
+            bio,
+            skills
           }
         }
       });
       if (error) throw error;
       if (data.user) {
+        if (!data.session) {
+          throw new Error('CONFIRM_EMAIL_REQUIRED');
+        }
         // Wait a brief moment for the database trigger to finish inserting the profile
         await new Promise(resolve => setTimeout(resolve, 800));
         const profile = await dbService.getProfile(data.user.id);

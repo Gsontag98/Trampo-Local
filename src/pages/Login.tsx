@@ -10,6 +10,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const { login, register } = useAuth();
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
 
   // Signup fields
   const [name, setName] = useState('');
@@ -26,6 +27,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
     
     if (!email.trim() || !password.trim()) {
       return setError('E-mail e senha são obrigatórios.');
@@ -42,6 +44,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
     
     if (!name.trim()) return setError('Nome é obrigatório.');
     if (!phone.trim()) return setError('WhatsApp é obrigatório.');
@@ -58,7 +61,18 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       await register(name, phone, role, bio, skillsArray, city, email, password);
       onLoginSuccess();
     } catch (err: any) {
-      setError(err.message || 'Erro ao criar conta.');
+      if (err.message === 'CONFIRM_EMAIL_REQUIRED') {
+        setSuccessMsg('Cadastro realizado com sucesso! Verifique sua caixa de entrada para confirmar seu e-mail antes de fazer o login.');
+        // Clear signup fields
+        setName('');
+        setPhone('');
+        setBio('');
+        setSkillsInput('');
+        // Switch to signin tab
+        setActiveTab('signin');
+      } else {
+        setError(err.message || 'Erro ao criar conta.');
+      }
     }
   };
 
@@ -86,7 +100,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               fontWeight: 600,
               cursor: 'pointer'
             }}
-            onClick={() => { setActiveTab('signin'); setError(''); }}
+            onClick={() => { setActiveTab('signin'); setError(''); setSuccessMsg(''); }}
           >
             Entrar
           </button>
@@ -101,11 +115,17 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               fontWeight: 600,
               cursor: 'pointer'
             }}
-            onClick={() => { setActiveTab('signup'); setError(''); }}
+            onClick={() => { setActiveTab('signup'); setError(''); setSuccessMsg(''); }}
           >
             Cadastrar-se
           </button>
         </div>
+
+        {successMsg && (
+          <div style={{ padding: '12px', backgroundColor: 'rgba(16, 185, 129, 0.15)', color: 'var(--success)', borderRadius: 'var(--radius-sm)', marginBottom: '20px', fontSize: '0.9rem', fontWeight: 500 }}>
+            {successMsg}
+          </div>
+        )}
 
         {error && (
           <div style={{ padding: '12px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: 'var(--danger)', borderRadius: 'var(--radius-sm)', marginBottom: '20px', fontSize: '0.9rem', fontWeight: 500 }}>
