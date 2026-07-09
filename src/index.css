@@ -75,6 +75,12 @@
   padding: 0;
 }
 
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-primary);
   background-color: var(--bg-app);
@@ -86,10 +92,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+p, h1, h2, h3, h4, h5, h6, span, div {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 /* Custom Scrollbar */
@@ -254,11 +259,28 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Responsive configurations for Sidebar & Header */
 @media (max-width: 900px) {
+  .app-container {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
   .sidebar {
     display: none; /* Hide sidebar on tablet/mobile */
   }
   .main-content {
     margin-left: 0;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .page-body {
+    padding: 24px 20px 100px 20px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
   .top-header {
     padding: 0 20px;
@@ -317,6 +339,9 @@ h1, h2, h3, h4, h5, h6 {
   padding: 24px;
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-normal), box-shadow var(--transition-normal), background-color var(--transition-normal);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .glass-card:hover {
   box-shadow: var(--shadow-lg);
@@ -826,11 +851,13 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
   .pill-filter-bar::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
   .pill-button {
     flex-shrink: 0;
