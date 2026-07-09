@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 const AppContent: React.FC = () => {
-  const { user, loading, login, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const [currentTab, setCurrentTab] = useState<string>('home');
   const [theme, setTheme] = useState<'dark' | 'light'>('light'); // default light theme (new style)
 
@@ -48,14 +48,7 @@ const AppContent: React.FC = () => {
     }
   };
 
-  const handleQuickLogin = async (userId: string) => {
-    try {
-      await login(userId);
-      setCurrentTab('dashboard');
-    } catch (err) {
-      console.error('Quick login failed:', err);
-    }
-  };
+
 
   const getPageTitle = () => {
     switch (currentTab) {
@@ -83,7 +76,7 @@ const AppContent: React.FC = () => {
 
     switch (currentTab) {
       case 'home':
-        return <LandingPage onNavigate={setCurrentTab} onQuickLogin={handleQuickLogin} />;
+        return <LandingPage onNavigate={setCurrentTab} />;
       case 'login':
         return <Login onLoginSuccess={() => setCurrentTab('dashboard')} />;
       case 'profile':
@@ -92,7 +85,7 @@ const AppContent: React.FC = () => {
         if (!user) return <Login onLoginSuccess={() => setCurrentTab('dashboard')} />;
         return user.role === 'company' ? <CompanyDashboard /> : <FreelancerDashboard />;
       default:
-        return <LandingPage onNavigate={setCurrentTab} onQuickLogin={handleQuickLogin} />;
+        return <LandingPage onNavigate={setCurrentTab} />;
     }
   };
 

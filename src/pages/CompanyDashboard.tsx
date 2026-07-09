@@ -46,7 +46,7 @@ export const CompanyDashboard: React.FC = () => {
       const openJobs = companyJobs.filter(j => j.status === 'open');
       const candidatesMap: Record<string, Application[]> = {};
       for (const j of openJobs) {
-        const apps = await dbService.getApplications(j.id);
+        const apps = await dbService.getJobApplications(j.id);
         candidatesMap[j.id] = apps;
       }
       setCandidates(candidatesMap);

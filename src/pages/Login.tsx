@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Building2, User } from 'lucide-react';
-import { isRealSupabase } from '../services/db';
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -10,9 +9,6 @@ interface LoginProps {
 export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const { login, register } = useAuth();
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
-  
-  // Signin fields
-  const [selectedPresetId, setSelectedPresetId] = useState('f-1');
   const [error, setError] = useState('');
 
   // Signup fields
@@ -27,29 +23,19 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const presetAccounts = [
-    { id: 'f-1', label: 'Carlos Oliveira (Garçom)' },
-    { id: 'f-2', label: 'Ana Souza (Diarista)' },
-    { id: 'f-3', label: 'Marcos Santos (Eletricista)' },
-    { id: 'c-1', label: 'Buffet Delícias (Empresa)' },
-    { id: 'c-2', label: 'Família Silva (Contratante Particular)' }
-  ];
-
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    
+    if (!email.trim() || !password.trim()) {
+      return setError('E-mail e senha são obrigatórios.');
+    }
+    
     try {
-      if (isRealSupabase) {
-        if (!email.trim() || !password.trim()) {
-          return setError('E-mail e senha são obrigatórios.');
-        }
-        await login(email, password);
-      } else {
-        await login(selectedPresetId);
-      }
+      await login(email, password);
       onLoginSuccess();
     } catch (err: any) {
-      setError(err.message || 'Erro ao realizar login.');
+      setError(err.message || 'Erro ao realizar login. Verifique suas credenciais.');
     }
   };
 
@@ -59,11 +45,9 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     
     if (!name.trim()) return setError('Nome é obrigatório.');
     if (!phone.trim()) return setError('WhatsApp é obrigatório.');
-    if (isRealSupabase) {
-      if (!email.trim()) return setError('E-mail é obrigatório.');
-      if (!password.trim()) return setError('Senha é obrigatória.');
-      if (password.length < 6) return setError('A senha deve conter no mínimo 6 caracteres.');
-    }
+    if (!email.trim()) return setError('E-mail é obrigatório.');
+    if (!password.trim()) return setError('Senha é obrigatória.');
+    if (password.length < 6) return setError('A senha deve conter no mínimo 6 caracteres.');
     
     try {
       const skillsArray = skillsInput
@@ -71,11 +55,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         .map(s => s.trim())
         .filter(s => s.length > 0);
         
-      if (isRealSupabase) {
-        await register(name, phone, role, bio, skillsArray, city, email, password);
-      } else {
-        await register(name, phone, role, bio, skillsArray, city);
-      }
+      await register(name, phone, role, bio, skillsArray, city, email, password);
       onLoginSuccess();
     } catch (err: any) {
       setError(err.message || 'Erro ao criar conta.');
@@ -135,56 +115,32 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
         {activeTab === 'signin' ? (
           <form onSubmit={handleSignIn}>
-            {isRealSupabase ? (
-              <>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="login-email">E-mail</label>
-                  <input 
-                    id="login-email"
-                    className="form-control" 
-                    type="email" 
-                    placeholder="Ex: profissional@gmail.com" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    style={{ height: '48px' }}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="login-password">Senha</label>
-                  <input 
-                    id="login-password"
-                    className="form-control" 
-                    type="password" 
-                    placeholder="Sua senha secreta" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={{ height: '48px' }}
-                    required
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="form-group">
-                  <label className="form-label">Selecione uma conta de simulação</label>
-                  <select 
-                    className="form-control"
-                    value={selectedPresetId}
-                    onChange={(e) => setSelectedPresetId(e.target.value)}
-                    style={{ height: '48px' }}
-                  >
-                    {presetAccounts.map(acc => (
-                      <option key={acc.id} value={acc.id}>{acc.label}</option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', padding: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', marginBottom: '24px', lineHeight: 1.4 }}>
-                  💡 <strong>Nota de Arquitetura:</strong> Em produção, o login será autenticado via Supabase OTP (código via WhatsApp ou SMS) garantindo segurança. Para testes rápidos, este protótipo permite login instantâneo.
-                </div>
-              </>
-            )}
+            <div className="form-group">
+              <label className="form-label" htmlFor="login-email">E-mail</label>
+              <input 
+                id="login-email"
+                className="form-control" 
+                type="email" 
+                placeholder="Ex: profissional@gmail.com" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)}
+                style={{ height: '48px' }}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="login-password">Senha</label>
+              <input 
+                id="login-password"
+                className="form-control" 
+                type="password" 
+                placeholder="Sua senha secreta" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ height: '48px' }}
+                required
+              />
+            </div>
 
             <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }}>
               Entrar no Painel
@@ -242,37 +198,32 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               </div>
             </div>
 
-            {/* Real Auth fields (only when Supabase keys are active) */}
-            {isRealSupabase && (
-              <>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="reg-email">E-mail de Cadastro</label>
-                  <input 
-                    id="reg-email"
-                    className="form-control" 
-                    type="email" 
-                    placeholder="Ex: profissional@gmail.com" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    style={{ height: '48px' }}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="reg-password">Senha (mínimo 6 caracteres)</label>
-                  <input 
-                    id="reg-password"
-                    className="form-control" 
-                    type="password" 
-                    placeholder="Crie uma senha segura" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={{ height: '48px' }}
-                    required
-                  />
-                </div>
-              </>
-            )}
+            <div className="form-group">
+              <label className="form-label" htmlFor="reg-email">E-mail de Cadastro</label>
+              <input 
+                id="reg-email"
+                className="form-control" 
+                type="email" 
+                placeholder="Ex: profissional@gmail.com" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)}
+                style={{ height: '48px' }}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="reg-password">Senha (mínimo 6 caracteres)</label>
+              <input 
+                id="reg-password"
+                className="form-control" 
+                type="password" 
+                placeholder="Crie uma senha segura" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ height: '48px' }}
+                required
+              />
+            </div>
 
             {/* General Fields */}
             <div className="form-group">
